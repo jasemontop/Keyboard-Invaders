@@ -519,6 +519,114 @@
 
           </button>
 
+          <button
+            class="quick-upgrade"
+            data-upgrade="precision"
+          >
+
+            <span>
+              🎯
+            </span>
+
+            <div>
+
+              <small>
+                ACCURACY
+              </small>
+
+              <strong>
+                LV.<span id="precision-level">1</span>
+              </strong>
+
+            </div>
+
+            <b>
+              🪙<span id="precision-cost">18</span>
+            </b>
+
+          </button>
+
+          <button
+            class="quick-upgrade"
+            data-upgrade="crit"
+          >
+
+            <span>
+              ☄️
+            </span>
+
+            <div>
+
+              <small>
+                CRIT CHANCE
+              </small>
+
+              <strong>
+                LV.<span id="crit-level">1</span>
+              </strong>
+
+            </div>
+
+            <b>
+              🪙<span id="crit-cost">26</span>
+            </b>
+
+          </button>
+
+          <button
+            class="quick-upgrade"
+            data-upgrade="magnet"
+          >
+
+            <span>
+              🧲
+            </span>
+
+            <div>
+
+              <small>
+                MAGNET STRENGTH
+              </small>
+
+              <strong>
+                LV.<span id="magnet-level">1</span>
+              </strong>
+
+            </div>
+
+            <b>
+              🪙<span id="magnet-cost">30</span>
+            </b>
+
+          </button>
+
+          <button
+            class="quick-upgrade"
+            data-upgrade="bulletSpeed"
+          >
+
+            <span>
+              ⚡
+            </span>
+
+            <div>
+
+              <small>
+                BULLET SPEED
+              </small>
+
+              <strong>
+                LV.<span id="bulletSpeed-level">0</span>
+              </strong>
+
+            </div>
+
+            <b>
+              🪙<span id="bulletSpeed-cost">35</span>
+            </b>
+
+          </button>
+
         </div>
 
       </div>
@@ -852,6 +960,8 @@
               Have 🪙2,500
             </p>
 
+            <div id="rebirth-preview" class="rebirth-preview"></div>
+
           </div>
 
 
@@ -918,6 +1028,16 @@
         <div>
           <span>🧟‍♂️</span>
           <b>VOID MUTANT</b>
+        </div>
+
+        <div>
+          <span>🐺</span>
+          <b>VOID HOUND</b>
+        </div>
+
+        <div>
+          <span>🕷️</span>
+          <b>ARC SPIDER</b>
         </div>
 
       </div>
@@ -1160,6 +1280,15 @@
 
 
 
+  <!-- WORLD -->
+
+  <div id="world-status">
+    <small>SECTOR</small>
+    <strong id="world-name">ORBITAL STATION</strong>
+    <span id="world-range">WAVES 1–10</span>
+  </div>
+
+
   <!-- ARENA -->
 
   <div id="arena">
@@ -1319,6 +1448,15 @@
 
 
 
+  <!-- WORLD TRANSITION -->
+
+  <div id="world-transition">
+    <small id="world-transition-small">ENTERING SECTOR</small>
+    <strong id="world-transition-name">ORBITAL STATION</strong>
+    <span id="world-transition-sub">THREAT LEVEL RISING</span>
+  </div>
+
+
   <!-- OVERHEAT -->
 
   <div id="overheat-warning">
@@ -1448,6 +1586,21 @@
 
 </div>
 
+
+<div id="tutorial-overlay" class="tutorial-overlay">
+  <div class="tutorial-card">
+    <div class="tutorial-icon">⌨️</div>
+    <small>COMMANDER BRIEFING</small>
+    <h2>KEYBOARD DEFENSE 101</h2>
+    <div class="tutorial-steps">
+      <div><span>1</span> Press the matching keys to fire at incoming mobs.</div>
+      <div><span>2</span> Clear each wave and survive boss events every 10 waves.</div>
+      <div><span>3</span> Spend credits on upgrades, drones, and stronger keyboards.</div>
+      <div><span>4</span> Rebirth after the requirements to unlock permanent scaling.</div>
+    </div>
+    <button id="tutorial-close">BEGIN DEFENSE</button>
+  </div>
+</div>
 
 
 <script src="script.js"></script>

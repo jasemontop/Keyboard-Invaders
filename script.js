@@ -48,17 +48,40 @@ let rebirths =
   ) || 0;
 
 
-let upgrades =
-  JSON.parse(
+const defaultUpgrades = {
+  damage: 1,
+  bullets: 1,
+  cooling: 1,
+  health: 1,
+  precision: 1,
+  crit: 1,
+  magnet: 1,
+  bulletSpeed: 0
+};
+
+let upgrades = {
+  ...defaultUpgrades,
+  ...(JSON.parse(
     localStorage.getItem(
       "kiUpgrades3"
     )
-  ) || {
-    damage: 1,
-    bullets: 1,
-    cooling: 1,
-    health: 1
-  };
+  ) || {})
+};
+
+if (
+  typeof upgrades.bulletSpeed !==
+  "number"
+) {
+  upgrades.bulletSpeed =
+    0;
+}
+
+
+let tutorialSeen =
+  localStorage.getItem(
+    "kiTutorialSeen3"
+  ) ===
+  "true";
 
 
 let owned =
@@ -309,6 +332,66 @@ const guns = {
 
     sound:
       "void"
+  },
+
+
+  nova: {
+    name:
+      "Nova Pulse",
+
+    icon:
+      "☄️",
+
+    price:
+      5200,
+
+    description:
+      "Heavy starfire bursts with a brighter trail.",
+
+    damage:
+      2.2,
+
+    heat:
+      1.55,
+
+    bulletClass:
+      "nova",
+
+    speed:
+      -16,
+
+    sound:
+      "rail"
+  },
+
+
+  arc: {
+    name:
+      "Arc Storm",
+
+    icon:
+      "⚙️",
+
+    price:
+      7600,
+
+    description:
+      "Charged shots that hit harder at range.",
+
+    damage:
+      2.7,
+
+    heat:
+      1.8,
+
+    bulletClass:
+      "arc",
+
+    speed:
+      -19,
+
+    sound:
+      "void"
   }
 
 };
@@ -388,6 +471,36 @@ const drones = {
 
     description:
       "Zaps several mobs."
+  },
+
+
+  prism: {
+    name:
+      "Prism Drone",
+
+    icon:
+      "🔷",
+
+    price:
+      3100,
+
+    description:
+      "Quick multi-hit bursts for elite mobs."
+  },
+
+
+  harvester: {
+    name:
+      "Harvester Drone",
+
+    icon:
+      "🌾",
+
+    price:
+      4300,
+
+    description:
+      "Steals extra coins from each kill."
   }
 
 };
@@ -512,6 +625,54 @@ const keyboards = {
 
     className:
       "void-board"
+  },
+
+
+  sentinel: {
+    name:
+      "Sentinel Board",
+
+    icon:
+      "🛰️",
+
+    price:
+      3600,
+
+    description:
+      "+80 shield, +0.85 cooling, warmer build.",
+
+    shield:
+      80,
+
+    cooling:
+      0.85,
+
+    className:
+      "sentinel-board"
+  },
+
+
+  eclipse: {
+    name:
+      "Eclipse Board",
+
+    icon:
+      "🌑",
+
+    price:
+      5600,
+
+    description:
+      "+120 shield and elite cooling tuning.",
+
+    shield:
+      120,
+
+    cooling:
+      0.95,
+
+    className:
+      "eclipse-board"
   }
 
 };
@@ -763,6 +924,126 @@ const enemyTypes = {
   },
 
 
+  wraith: {
+    name:
+      "NIGHT WRAITH",
+
+    icon:
+      "👻",
+
+    hp:
+      170,
+
+    speed:
+      0.92,
+
+    damage:
+      26,
+
+    reward:
+      7,
+
+    unlock:
+      30
+  },
+
+
+  brute: {
+    name:
+      "VOID BRUTE",
+
+    icon:
+      "🦴",
+
+    hp:
+      240,
+
+    speed:
+      0.28,
+
+    damage:
+      34,
+
+    reward:
+      9,
+
+    unlock:
+      35
+  },
+
+
+  seer: {
+    name:
+      "ASTRAL SEER",
+
+    icon:
+      "🔮",
+
+    hp:
+      290,
+
+    speed:
+      0.34,
+
+    damage:
+      38,
+
+    reward:
+      12,
+
+    unlock:
+      40
+  },
+
+
+  glitchHound: {
+    name:
+      "VOID HOUND",
+
+    icon:
+      "🐺",
+
+    hp:
+      360,
+
+    speed:
+      0.76,
+
+    damage:
+      44,
+
+    reward:
+      17,
+
+    unlock:
+      46
+  },
+
+
+  runeCrawler: {
+    name:
+      "ARC SPIDER",
+
+    icon:
+      "🕷️",
+
+    hp:
+      470,
+
+    speed:
+      0.52,
+
+    damage:
+      50,
+
+    reward:
+      21,
+
+    unlock:
+      52
+  },
+
+
   necromancer: {
     name:
       "DARK SUMMONER",
@@ -784,6 +1065,30 @@ const enemyTypes = {
 
     unlock:
       30
+  },
+
+
+  novaStalker: {
+    name:
+      "NOVA STALKER",
+
+    icon:
+      "🛸",
+
+    hp:
+      380,
+
+    speed:
+      0.59,
+
+    damage:
+      42,
+
+    reward:
+      16,
+
+    unlock:
+      45
   },
 
 
@@ -837,6 +1142,116 @@ const bossWords = [
   "BOSS",
   "VOID"
 ];
+
+
+const worldOrder = [
+  "orbit",
+  "moon",
+  "mars",
+  "void",
+  "cyber"
+];
+
+
+const worlds = {
+  orbit: {
+    name: "ORBITAL STATION",
+    range: "WAVES 1–10",
+    intro: "THREAT LEVEL RISING",
+    bodyClass: "world-orbit"
+  },
+
+  moon: {
+    name: "LUNAR WARD",
+    range: "WAVES 11–20",
+    intro: "SECTOR DOCKED",
+    bodyClass: "world-moon"
+  },
+
+  mars: {
+    name: "RED FRONTIER",
+    range: "WAVES 21–30",
+    intro: "HELLSCAPE ALERT",
+    bodyClass: "world-mars"
+  },
+
+  void: {
+    name: "VOID DEPTHS",
+    range: "WAVES 31–40",
+    intro: "DEEP SPACE COLLAPSE",
+    bodyClass: "world-void"
+  },
+
+  cyber: {
+    name: "CYBER NECROPOLIS",
+    range: "WAVES 41+",
+    intro: "FINAL SECTOR",
+    bodyClass: "world-cyber"
+  }
+};
+
+
+const bossTypes = {
+  titan: {
+    name: "GALACTIC TITAN",
+    icon: "👾",
+    hp: 900,
+    speed: 0.19,
+    damage: 52,
+    reward: 28,
+    unlock: 10,
+    tier: "boss-tier-1",
+    world: "orbit"
+  },
+
+  moonWarden: {
+    name: "MOON WARDEN",
+    icon: "🛡️",
+    hp: 1600,
+    speed: 0.22,
+    damage: 60,
+    reward: 40,
+    unlock: 20,
+    tier: "boss-tier-2",
+    world: "moon"
+  },
+
+  magmaBeast: {
+    name: "MAGMA BEHEMOTH",
+    icon: "🔥",
+    hp: 2400,
+    speed: 0.25,
+    damage: 68,
+    reward: 55,
+    unlock: 30,
+    tier: "boss-tier-3",
+    world: "mars"
+  },
+
+  abyssalKing: {
+    name: "ABYSSAL KING",
+    icon: "🌌",
+    hp: 3400,
+    speed: 0.2,
+    damage: 78,
+    reward: 70,
+    unlock: 40,
+    tier: "boss-tier-4",
+    world: "void"
+  },
+
+  eclipseSentinel: {
+    name: "ECLIPSE SENTINEL",
+    icon: "🛸",
+    hp: 5000,
+    speed: 0.18,
+    damage: 90,
+    reward: 100,
+    unlock: 50,
+    tier: "boss-tier-5",
+    world: "cyber"
+  }
+};
 
 
 // ========================================================
@@ -927,6 +1342,10 @@ let currentModifier =
   "NONE";
 
 
+let currentWorld =
+  "orbit";
+
+
 // ========================================================
 // ELEMENTS
 // ========================================================
@@ -1002,7 +1421,7 @@ function checkUsername() {
   ) {
 
     updateUsernameUI();
-
+    showTutorial();
     return;
 
   }
@@ -1017,6 +1436,49 @@ function checkUsername() {
     );
 
 }
+
+
+function showTutorial() {
+
+  if (
+    tutorialSeen
+  ) {
+
+    return;
+
+  }
+
+  const overlay =
+    document.getElementById(
+      "tutorial-overlay"
+    );
+
+  overlay.classList.add(
+    "show"
+  );
+
+}
+
+
+document
+  .getElementById(
+    "tutorial-close"
+  )
+  .addEventListener(
+    "click",
+    () => {
+      tutorialSeen =
+        true;
+      save();
+      document
+        .getElementById(
+          "tutorial-overlay"
+        )
+        .classList.remove(
+          "show"
+        );
+    }
+  );
 
 
 document
@@ -2332,7 +2794,19 @@ const upgradeCosts = {
     12,
 
   health:
-    10
+    10,
+
+  precision:
+    18,
+
+  crit:
+    26,
+
+  magnet:
+    30,
+
+  bulletSpeed:
+    35
 
 };
 
@@ -2341,15 +2815,22 @@ function getUpgradeCost(
   type
 ) {
 
+  const level =
+    Number.isFinite(
+      upgrades[type]
+    )
+      ? upgrades[type]
+      : 0;
+
   return Math.floor(
 
-    upgradeCosts[type]
+    (upgradeCosts[type] || 0)
 
     *
 
     Math.pow(
       1.65,
-      upgrades[type] -
+      level -
       1
     )
 
@@ -2381,6 +2862,31 @@ document
             "bullets" &&
             upgrades.bullets >=
             6
+          ) {
+
+            playErrorSound();
+
+            return;
+
+          }
+
+          if (
+            (type ===
+              "precision" &&
+              upgrades.precision >=
+              8) ||
+            (type ===
+              "crit" &&
+              upgrades.crit >=
+              8) ||
+            (type ===
+              "magnet" &&
+              upgrades.magnet >=
+              8) ||
+            (type ===
+              "bulletSpeed" &&
+              upgrades.bulletSpeed >=
+              8)
           ) {
 
             playErrorSound();
@@ -2849,6 +3355,30 @@ function rebirthRequirement() {
 }
 
 
+function rebirthPreviewText() {
+
+  const nextBonus =
+    1 +
+    rebirths *
+    0.08;
+
+  const nextCash =
+    cashMultiplier() +
+    0.5;
+
+  const nextShield =
+    rebirthShieldBonus() +
+    10;
+
+  return [
+    `+${(nextBonus * 100 - 100).toFixed(0)}% damage`,
+    `+${nextCash.toFixed(2)}× coin gain`,
+    `+${nextShield} starting shield`
+  ];
+
+}
+
+
 function cashMultiplier() {
 
   return (
@@ -2886,6 +3416,9 @@ function updateRebirthUI() {
   const requirement =
     rebirthRequirement();
 
+  const preview =
+    rebirthPreviewText();
+
 
   document.getElementById(
     "rebirth-cash-multiplier"
@@ -2918,6 +3451,17 @@ function updateRebirthUI() {
     "rebirth-coin-requirement"
   ).textContent =
     `Have 🪙${requirement.coins.toLocaleString()}`;
+
+
+  document.getElementById(
+    "rebirth-preview"
+  ).innerHTML =
+    preview
+      .map(
+        line =>
+          `<span>${line}</span>`
+      )
+      .join("");
 
 
   const canRebirth =
@@ -3074,6 +3618,14 @@ function startGame() {
   clearJammedKeys();
 
 
+  currentWorld =
+    "orbit";
+
+  applyWorldTheme(
+    currentWorld
+  );
+
+
   running =
     true;
 
@@ -3148,6 +3700,115 @@ function startGame() {
   setTimeout(
     startWave,
     800
+  );
+
+}
+
+
+function getWorldForWave(
+  targetWave
+) {
+
+  const index =
+    Math.min(
+      worldOrder.length -
+      1,
+      Math.floor(
+        (targetWave -
+          1) /
+        10
+      )
+    );
+
+  return worldOrder[
+    index
+  ];
+
+}
+
+
+function applyWorldTheme(
+  worldId
+) {
+
+  const world =
+    worlds[
+      worldId
+    ] ||
+    worlds.orbit;
+
+  document.body.classList.remove(
+    ...Object.keys(
+      worlds
+    ).map(
+      key =>
+        `world-${key}`
+    )
+  );
+
+  document.body.classList.add(
+    world.bodyClass
+  );
+
+  document.getElementById(
+    "world-name"
+  ).textContent =
+    world.name;
+
+  document.getElementById(
+    "world-range"
+  ).textContent =
+    world.range;
+
+}
+
+
+function showWorldTransition(
+  worldId
+) {
+
+  const world =
+    worlds[
+      worldId
+    ] ||
+    worlds.orbit;
+
+  const box =
+    document.getElementById(
+      "world-transition"
+    );
+
+  document.getElementById(
+    "world-transition-small"
+  ).textContent =
+    "ENTERING SECTOR";
+
+  document.getElementById(
+    "world-transition-name"
+  ).textContent =
+    world.name;
+
+  document.getElementById(
+    "world-transition-sub"
+  ).textContent =
+    world.intro;
+
+  box.classList.remove(
+    "show"
+  );
+
+  void box.offsetWidth;
+
+  box.classList.add(
+    "show"
+  );
+
+  setTimeout(
+    () =>
+      box.classList.remove(
+        "show"
+      ),
+    2200
   );
 
 }
@@ -3248,6 +3909,30 @@ function startWave() {
   }
 
 
+  const nextWorld =
+    getWorldForWave(
+      wave
+    );
+
+  if (
+    nextWorld !==
+    currentWorld
+  ) {
+
+    currentWorld =
+      nextWorld;
+
+    applyWorldTheme(
+      currentWorld
+    );
+
+    showWorldTransition(
+      currentWorld
+    );
+
+  }
+
+
   waveChanging =
     false;
 
@@ -3331,9 +4016,23 @@ function startWave() {
     bossWave
   ) {
 
+    const bossKey =
+      getBossForWave(
+        wave
+      );
+
+    const bossMeta =
+      bossTypes[
+        bossKey
+      ];
+
     showAnnouncement(
       "⚠ BOSS WAVE",
-      "TITAN INBOUND"
+      bossMeta
+        ?
+        bossMeta.name
+        :
+        "TITAN INBOUND"
     );
 
   }
@@ -3432,7 +4131,9 @@ function startWave() {
           ) {
 
             spawnEnemy(
-              "titan"
+              getBossForWave(
+                wave
+              )
             );
 
           }
@@ -3472,6 +4173,51 @@ function startWave() {
 // MOB SELECTION
 // ========================================================
 
+function getBossForWave(
+  targetWave
+) {
+
+  const worldId =
+    getWorldForWave(
+      targetWave
+    );
+
+  const bossPool =
+    [
+      "titan",
+      "moonWarden",
+      "magmaBeast",
+      "abyssalKing",
+      "eclipseSentinel"
+    ]
+    .filter(
+      key =>
+        bossTypes[
+          key
+        ].unlock <=
+        targetWave
+        &&
+        bossTypes[
+          key
+        ].world ===
+        worldId
+    );
+
+  if (
+    !bossPool.length
+  ) {
+
+    return "titan";
+
+  }
+
+  return randomItem(
+    bossPool
+  );
+
+}
+
+
 function chooseEnemy() {
 
   const available =
@@ -3481,8 +4227,10 @@ function chooseEnemy() {
     .filter(
 
       type =>
-        type !==
-        "titan"
+        !Object.hasOwn(
+          bossTypes,
+          type
+        )
         &&
         enemyTypes[
           type
@@ -3513,15 +4261,21 @@ function spawnEnemy(
     chooseEnemy();
 
 
+  const bossMeta =
+    bossTypes[
+      type
+    ];
+
+
   const base =
+    bossMeta ||
     enemyTypes[
       type
     ];
 
 
   const boss =
-    type ===
-    "titan";
+    !!bossMeta;
 
 
   const elite =
@@ -3722,6 +4476,14 @@ function spawnEnemy(
       ${base.icon}
     </div>
 
+    ${
+      boss
+        ?
+        `<div class="boss-aura-ring" style="color:${bossMeta.tier.includes('2') ? '#ffdf62' : bossMeta.tier.includes('3') ? '#57edff' : bossMeta.tier.includes('4') ? '#c57aff' : bossMeta.tier.includes('5') ? '#64ff9f' : '#ff6e6e'}"></div>`
+        :
+        ""
+    }
+
   `;
 
 
@@ -3744,6 +4506,19 @@ function spawnEnemy(
       155
       :
       110;
+
+
+  if (
+    boss
+    &&
+    element.classList
+  ) {
+
+    element.classList.add(
+      bossMeta.tier
+    );
+
+  }
 
 
   const minX =
@@ -3867,6 +4642,10 @@ function spawnEnemy(
     boss
   ) {
 
+    document.body.classList.add(
+      "boss-active"
+    );
+
     showBossBar(
       enemy
     );
@@ -3946,6 +4725,64 @@ document.addEventListener(
   }
 
 );
+
+
+document
+  .querySelectorAll(
+    ".key"
+  )
+  .forEach(
+    key => {
+      key.addEventListener(
+        "click",
+        () => {
+          if (
+            !running
+          ) {
+            return;
+          }
+
+          const keyValue =
+            key.dataset.key;
+
+          key.classList.add(
+            "active"
+          );
+
+          if (
+            activeExecution
+            &&
+            keyValue !==
+            " "
+          ) {
+            handleExecution(
+              keyValue.toLowerCase()
+            );
+            setTimeout(
+              () =>
+                key.classList.remove(
+                  "active"
+                ),
+              110
+            );
+            return;
+          }
+
+          attemptShoot(
+            key
+          );
+
+          setTimeout(
+            () =>
+              key.classList.remove(
+                "active"
+              ),
+            110
+          );
+        }
+      );
+    }
+  );
 
 
 document.addEventListener(
@@ -4228,6 +5065,13 @@ function createBullet(
   );
 
 
+  const bulletSpeedLevel =
+    Number.isFinite(
+      upgrades.bulletSpeed
+    )
+      ? upgrades.bulletSpeed
+      : 0;
+
   bullets.push({
 
     element,
@@ -4239,7 +5083,12 @@ function createBullet(
     vx,
 
     vy:
-      gun.speed,
+      gun.speed *
+      (
+        1 +
+        bulletSpeedLevel *
+        0.12
+      ),
 
     damage:
       (
@@ -4309,7 +5158,9 @@ setInterval(
       Math.min(
         100,
         precision +
-        0.6
+        0.6 +
+        upgrades.precision *
+        0.3
       );
 
 
@@ -5333,6 +6184,9 @@ function hitEnemy(
       precision /
       100 *
       0.08
+      +
+      upgrades.crit *
+      0.012
     );
 
 
@@ -5705,6 +6559,12 @@ function killEnemy(
       1.25;
 
   }
+
+
+  reward *=
+    1 +
+    upgrades.magnet *
+    0.06;
 
 
   reward *=
@@ -7244,6 +8104,10 @@ function hideBossBar() {
     "show"
   );
 
+  document.body.classList.remove(
+    "boss-active"
+  );
+
 }
 
 
@@ -7559,7 +8423,11 @@ function updateLobby() {
     "damage",
     "bullets",
     "cooling",
-    "health"
+    "health",
+    "precision",
+    "crit",
+    "magnet",
+    "bulletSpeed"
   ]
   .forEach(
 
@@ -7954,6 +8822,12 @@ function clearJammedKeys() {
 // ========================================================
 
 function save() {
+
+  localStorage.setItem(
+    "kiTutorialSeen3",
+    tutorialSeen
+  );
+
 
   localStorage.setItem(
     "kiCoins3",
